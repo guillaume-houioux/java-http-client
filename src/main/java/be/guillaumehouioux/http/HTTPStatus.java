@@ -8,9 +8,9 @@ import java.util.Arrays;
 public enum HTTPStatus {
 
     CONTINUE(100, "INFORMATIONAL", "Continue"),
-    OK(200, "SUCCESSFUL", "Continue"),
-    BAD_REQUEST(400, "CLIENT ERROR", "Continue"),
-    INTERNAL_SERVER_ERROR(500, "SERVER ERROR", "Continue");
+    OK(200, "SUCCESSFUL", "OK"),
+    BAD_REQUEST(400, "CLIENT ERROR", "Bad Request"),
+    INTERNAL_SERVER_ERROR(500, "SERVER ERROR", "Internal Server Error");
 
     private Integer status;
     private String severity;
@@ -27,7 +27,7 @@ public enum HTTPStatus {
                 .stream(HTTPStatus.values())
                 .filter(s -> s.getStatus().equals(statusCode))
                 .findFirst()
-                .orElse(null);
+                .get();
     }
 
     public Integer getStatus() {

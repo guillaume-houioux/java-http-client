@@ -7,7 +7,16 @@ public enum HTTPMethod {
     GET,
     POST,
     PUT,
-    DELETE,
     PATCH,
-    OPTIONS
+    DELETE,
+    COPY,
+    HEAD,
+    OPTIONS,
+    LINK,
+    UNLINK,
+    PURGE,
+    LOCK,
+    UNLOCK,
+    PROPFIND,
+    VIEW
 }
