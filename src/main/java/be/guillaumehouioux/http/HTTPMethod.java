@@ -19,6 +19,4 @@ public enum HTTPMethod {
     UNLOCK,
     PROPFIND,
     VIEW
-
-
 }
