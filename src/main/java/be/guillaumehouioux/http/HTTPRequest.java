@@ -8,6 +8,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /*
@@ -20,11 +21,6 @@ public class HTTPRequest {
     private Class convertTo;
 
     public HTTPRequest() { }
-
-    // TODO throw exception when map object
-    // TODO calculate request time
-    // TODO convert responsejson to object OK
-
 
     public HTTPRequest withConfiguration(String path, HTTPMethod method) throws IOException {
         this.httpURLConnection = (HttpURLConnection) new URL(path).openConnection();
@@ -63,5 +59,53 @@ public class HTTPRequest {
         httpResponse.setBody(objectConverted);
 
         return httpResponse;
+    }
+
+    // Getters and Setters
+
+    public ObjectMapper getObjectMapper() {
+        return objectMapper;
+    }
+
+    public void setObjectMapper(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
+    public HttpURLConnection getHttpURLConnection() {
+        return httpURLConnection;
+    }
+
+    public void setHttpURLConnection(HttpURLConnection httpURLConnection) {
+        this.httpURLConnection = httpURLConnection;
+    }
+
+    public Class getConvertTo() {
+        return convertTo;
+    }
+
+    public void setConvertTo(Class convertTo) {
+        this.convertTo = convertTo;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HTTPRequest)) return false;
+        HTTPRequest that = (HTTPRequest) o;
+        return Objects.equals(getObjectMapper(), that.getObjectMapper()) && Objects.equals(getHttpURLConnection(), that.getHttpURLConnection()) && Objects.equals(getConvertTo(), that.getConvertTo());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getObjectMapper(), getHttpURLConnection(), getConvertTo());
+    }
+
+    @Override
+    public String toString() {
+        return "HTTPRequest{" +
+                "objectMapper=" + objectMapper +
+                ", httpURLConnection=" + httpURLConnection +
+                ", convertTo=" + convertTo +
+                '}';
     }
 }

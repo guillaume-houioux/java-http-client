@@ -1,5 +1,7 @@
 package be.guillaumehouioux.http;
 
+import java.util.Objects;
+
 /*
  * @author guill (03/10/2021)
  */
@@ -38,6 +40,19 @@ public class HTTPResponse {
 
     public void setBody(Object body) {
         this.body = body;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof HTTPResponse)) return false;
+        HTTPResponse that = (HTTPResponse) o;
+        return getStatus() == that.getStatus() && Objects.equals(getContentLength(), that.getContentLength()) && Objects.equals(getBody(), that.getBody());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStatus(), getContentLength(), getBody());
     }
 
     @Override
