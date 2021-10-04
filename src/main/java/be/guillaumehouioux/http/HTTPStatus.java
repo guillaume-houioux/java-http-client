@@ -70,12 +70,12 @@ public enum HTTPStatus {
     NOT_EXTENDED(510, "SERVER ERROR", "Not Extended"),
     NETWORK_AUTHENTICATION_REQUIRED(511, "SERVER ERROR", "Network Authentication Required");
 
-    private Integer status;
+    private Integer statusCode;
     private String severity;
     private String message;
 
-    HTTPStatus(Integer status, String severity, String message) {
-        this.status = status;
+    HTTPStatus(Integer statusCode, String severity, String message) {
+        this.statusCode = statusCode;
         this.severity = severity;
         this.message = message;
     }
@@ -83,17 +83,17 @@ public enum HTTPStatus {
     public static HTTPStatus valueOf(Integer statusCode) {
         return Arrays
                 .stream(HTTPStatus.values())
-                .filter(s -> s.getStatus().equals(statusCode))
+                .filter(s -> s.getStatusCode().equals(statusCode))
                 .findFirst()
                 .get();
     }
 
-    public Integer getStatus() {
-        return status;
+    public Integer getStatusCode() {
+        return statusCode;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setStatusCode(Integer statusCode) {
+        this.statusCode = statusCode;
     }
 
     public String getSeverity() {
@@ -115,7 +115,7 @@ public enum HTTPStatus {
     @Override
     public String toString() {
         return "HTTPStatus{" +
-                "status=" + status +
+                "status=" + statusCode +
                 ", severity='" + severity + '\'' +
                 ", message='" + message + '\'' +
                 '}';

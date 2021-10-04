@@ -7,6 +7,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -33,8 +35,10 @@ public class HTTPRequest {
     }
 
     public HTTPRequest withHeaders(Map<String, String> headers) {
-        for(Map.Entry<String, String> entry : headers.entrySet()) {
-            this.httpURLConnection.setRequestProperty(entry.getKey(), entry.getValue());
+        if(headers != null) {
+            for(Map.Entry<String, String> entry : headers.entrySet()) {
+                this.httpURLConnection.setRequestProperty(entry.getKey(), entry.getValue());
+            }
         }
         return this;
     }
@@ -46,17 +50,24 @@ public class HTTPRequest {
 
     private HTTPResponse buildResponse() throws IOException {
 
-        String body = new BufferedReader(new InputStreamReader(this.httpURLConnection.getInputStream(), StandardCharsets.UTF_8))
-                .lines()
-                .collect(Collectors.joining("\n"));
-
         HTTPResponse httpResponse = new HTTPResponse();
+
+        try {
+            String body = new BufferedReader(new InputStreamReader(this.httpURLConnection.getInputStream(), StandardCharsets.UTF_8))
+                    .lines()
+                    .collect(Collectors.joining("\n"));
+
+            if(this.convertTo == null || this.convertTo.equals(String.class)) {
+                httpResponse.setBody(body);
+            } else {
+                httpResponse.setBody(objectMapper.readValue(body, this.convertTo));
+            }
+        } catch(IOException ie) {
+            httpResponse.setBody(null);
+        }
 
         httpResponse.setStatus(HTTPStatus.valueOf(this.httpURLConnection.getResponseCode()));
         httpResponse.setContentLength(this.httpURLConnection.getContentLength());
-
-        Object objectConverted = objectMapper.readValue(body, this.convertTo);
-        httpResponse.setBody(objectConverted);
 
         return httpResponse;
     }
