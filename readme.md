@@ -1,3 +1,4 @@
+![example workflow](https://github.com/guillaume-houioux/java-http-client/actions/workflows/main.yml/badge.svg)
 ### HTTP Client
 
 Once downloaded :
