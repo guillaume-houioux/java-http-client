@@ -1,10 +1,8 @@
 package be.guillaumehouioux.http;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import java.io.IOException;
 
 /*
@@ -61,5 +59,27 @@ public class HTTPRequestTest {
 
         Assert.assertNotNull(httpResponse);
         Assert.assertTrue(((String)httpResponse.getBody()).length() > 0);
+    }
+
+    @Test
+    public void testResponseConvertToObjectArray() throws IOException {
+        HTTPResponse httpResponse = httpRequest.withConfiguration("https://jsonplaceholder.typicode.com/posts", HTTPMethod.GET)
+                .withHeaders(null)
+                .convertTo(Post[].class)
+                .send();
+
+        Assert.assertNotNull(httpResponse);
+        Assert.assertTrue(((Post[])httpResponse.getBody()).length == 100);
+    }
+
+    @Test
+    public void testResponseConvertToObject() throws IOException {
+        HTTPResponse httpResponse = httpRequest.withConfiguration("https://jsonplaceholder.typicode.com/posts/10", HTTPMethod.GET)
+                .withHeaders(null)
+                .convertTo(Post.class)
+                .send();
+
+        Assert.assertNotNull(httpResponse);
+        Assert.assertTrue(((Post)httpResponse.getBody()).getId() == 10);
     }
 }
